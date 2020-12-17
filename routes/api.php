@@ -19,25 +19,16 @@ use App\Models\Article;
 //    return $request->user();
 //});
 // OBtener la lista
-Route::get('articles', function(){
-    return Article::all();
-});
+Route::get('articles', 'ArticleController@index');
+
 // obtener un solo registro
-Route::get('articles/{id}', function($id){
-    return Article::find($id);
-});
+Route::get('articles/{article}', 'ArticleController@show');
+
 // Crear un solo registro
-Route::post('articles', function(Request $request){
-    return Article::create($request->all());
-});
+Route::post('articles', 'ArticleController@store');
+
 // modificar un solo registro
-Route::put('articles/{id}', function(Request $request, $id){
-    $article = Article::findOrFail($id);
-    $article->update($request->all());
-    return $article;
-});
+Route::put('articles/{article}', 'ArticleController@update');
+
 // borrar un registro
-Route::delete('articles/{id}', function($id){
-    Article::find($id)->delete();
-    return 204;
-});
+Route::delete('articles/{article}', 'ArticleController@delete');
