@@ -18,17 +18,14 @@ use App\Models\Article;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-// OBtener la lista
+Route::post('register', 'UserController@register');
+Route::post('login', 'UserController@authenticate');
 Route::get('articles', 'ArticleController@index');
 
-// obtener un solo registro
-Route::get('articles/{article}', 'ArticleController@show');
-
-// Crear un solo registro
-Route::post('articles', 'ArticleController@store');
-
-// modificar un solo registro
-Route::put('articles/{article}', 'ArticleController@update');
-
-// borrar un registro
-Route::delete('articles/{article}', 'ArticleController@delete');
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('user', 'UserController@getAuthenticatedUser');
+    Route::get('articles/{article}', 'ArticleController@show');
+    Route::post('articles', 'ArticleController@store');
+    Route::put('articles/{article}', 'ArticleController@update');
+    Route::delete('articles/{article}', 'ArticleController@delete');
+});
