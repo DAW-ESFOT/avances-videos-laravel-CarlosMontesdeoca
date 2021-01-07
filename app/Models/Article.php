@@ -27,3 +27,5 @@ class Article extends Model
     }
 
 }
+
+//prueba
