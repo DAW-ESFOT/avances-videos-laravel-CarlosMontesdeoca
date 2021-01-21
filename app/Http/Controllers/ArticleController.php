@@ -22,13 +22,15 @@ class ArticleController extends Controller
     }
 
     public function index(){
+        //$this->authorize('viewAny', Article::class);
         return new ArticleCollection(Article::paginate(10));
     }
     public function show( Article $article){
+        $this->authorize('view', $article);
         return response()->json(new ArticleResuce($article),200);
     }
     public function store(Request $request){
-
+        $this->authorize('create', Article::class);
         $request->validate([
             'title' => 'required|string|unique:articles|max:255',
             'body' => 'required',
@@ -46,7 +48,7 @@ class ArticleController extends Controller
         return response()->json(new ArticleResuce($article), 201);
     }
     public function update(Request $request, Article $article){
-
+        $this->authorize('update',$article);
         $request->validate([
             'title' => 'required|string|unique:articles,title,'.$article->id.'|max:255',
             'body' => 'required',
